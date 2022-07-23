@@ -1,11 +1,12 @@
 {
-   "name": "fastify-nodejs-application",
+   "name": "@hexlet/code",
    "version": "0.1.0",
    "type": "module",
    "description": "fastify-nodejs-application",
    "engines": {
       "node": ">=16.x"
    },
+   "main": "src/index.js",
    "scripts": {
       "prebuild": "rm -rf dist",
       "test": "jest --verbose --runInBand",
