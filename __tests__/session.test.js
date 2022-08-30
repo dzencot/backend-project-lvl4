@@ -40,16 +40,10 @@ describe('test session', () => {
 
     expect(response.statusCode).toBe(200);
 
-    const signInData = JSON.stringify({
+    const signInData = {
       email: users[0].email,
       password: users[0].password,
-    });
-
-    const currentUser = await app.objection.models.user.query().findOne({ email: users[0].email });
-    console.log('session current user: ', currentUser);
-    console.log('sign in data: ', signInData);
-    console.log('user: ', users[0]);
-    console.log('digest pass: ', encrypt(users[0].password));
+    };
 
     const responseSignIn = await app.inject({
       method: 'POST',

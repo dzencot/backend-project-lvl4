@@ -16,7 +16,6 @@ export default (app) => {
     .get('/users/:id/edit', async (req, reply) => {
       const { id } = req.params;
       const user = await app.objection.models.user.query().findById(id);
-      console.log('user: ', user);
       reply.render('users/edit', { user });
     })
     .post('/users', async (req, reply) => {
