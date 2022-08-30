@@ -36,13 +36,22 @@ export default {
           submit: 'Войти',
         },
       },
-      users: {
+      user: {
         id: 'ID',
+        firstName: 'Имя',
+        lastName: 'Фамилия',
         email: 'Email',
         createdAt: 'Дата создания',
+        password: 'Пароль',
         new: {
           submit: 'Сохранить',
           signUp: 'Регистрация',
+        },
+        edit: {
+          submit: 'Редактировать',
+        },
+        delete: {
+          submit: 'Удалить',
         },
       },
       welcome: {
@@ -52,6 +61,7 @@ export default {
           more: 'Узнать Больше',
         },
       },
+      actions: 'Действия',
     },
     email: 'Email',
     password: 'Пароль',

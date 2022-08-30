@@ -2,20 +2,34 @@
 
 import fastify from 'fastify';
 import init from '../server/plugin.js';
-import { getTestData, prepareData } from './helpers/index.js';
+import { prepareData, createRandomUser } from './helpers/index.js';
+
+import encrypt from '../server/lib/secure.cjs';
+import _ from 'lodash';
 
 describe('test session', () => {
   let app;
   let knex;
-  let testData;
+  const users = [];
 
   beforeAll(async () => {
     app = fastify({ logger: { prettyPrint: true } });
     await init(app);
     knex = app.objection.knex;
     await knex.migrate.latest();
-    await prepareData(app);
-    testData = getTestData();
+
+    const preparedUsers = [];
+    for (let i = 0; i < 10; i += 1) {
+      const user = createRandomUser();
+      const preparedUser = {
+        ..._.omit(user, 'password'),
+        passwordDigest: encrypt(user.password),
+      }
+      users.push(user);
+      preparedUsers.push(preparedUser);
+    }
+
+    await prepareData(app, { users: preparedUsers });
   });
 
   it('test sign in / sign out', async () => {
@@ -26,11 +40,22 @@ describe('test session', () => {
 
     expect(response.statusCode).toBe(200);
 
+    const signInData = JSON.stringify({
+      email: users[0].email,
+      password: users[0].password,
+    });
+
+    const currentUser = await app.objection.models.user.query().findOne({ email: users[0].email });
+    console.log('session current user: ', currentUser);
+    console.log('sign in data: ', signInData);
+    console.log('user: ', users[0]);
+    console.log('digest pass: ', encrypt(users[0].password));
+
     const responseSignIn = await app.inject({
       method: 'POST',
       url: app.reverse('session'),
       payload: {
-        data: testData.users.existing,
+        data: signInData,
       },
     });
 

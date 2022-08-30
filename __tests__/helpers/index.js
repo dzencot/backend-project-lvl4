@@ -3,6 +3,9 @@
 import { URL } from 'url';
 import fs from 'fs';
 import path from 'path';
+import { faker } from '@faker-js/faker';
+
+import encrypt from '../../server/lib/secure.cjs';
 
 // TODO: использовать для фикстур https://github.com/viglucci/simple-knex-fixtures
 
@@ -10,11 +13,44 @@ const getFixturePath = (filename) => path.join('..', '..', '__fixtures__', filen
 const readFixture = (filename) => fs.readFileSync(new URL(getFixturePath(filename), import.meta.url), 'utf-8').trim();
 const getFixtureData = (filename) => JSON.parse(readFixture(filename));
 
-export const getTestData = () => getFixtureData('testData.json');
+const createRandomUser = () => ({
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
+  email: faker.internet.email(),
+  password: faker.internet.password(),
+});
 
-export const prepareData = async (app) => {
+const createRandomUserData = () => ({
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
+  email: faker.internet.email(),
+  passwordDigest: encrypt(faker.internet.password()),
+});
+
+const getTestData = () => getFixtureData('testData.json');
+
+const prepareData = async (app, data) => {
   const { knex } = app.objection;
 
-  // получаем данные из фикстур и заполняем БД
-  await knex('users').insert(getFixtureData('users.json'));
+  const tables = Object.keys(data);
+  for (const tableName of tables) {
+    await knex(tableName).insert(data[tableName]);
+  }
+};
+
+const getRandomUsers = (count = 10) => {
+  const users = [];
+  for (let i = 0; i < 10; i += 1) {
+    users.push(createRandomUserData());
+  }
+
+  return users;
+};
+
+export {
+  getTestData,
+  prepareData,
+  createRandomUser,
+  createRandomUserData,
+  getRandomUsers,
 };
