@@ -97,6 +97,18 @@ describe('test users CRUD', () => {
     expect(user).toMatchObject(expected);
   });
 
+  it('delete', async () => {
+    const currentUser = await models.user.query().findOne({ email: users[0].email });
+    const response = await app.inject({
+      method: 'DELETE',
+      url: `/users/${currentUser.id}`,
+    });
+
+    expect(response.statusCode).toBe(302);
+    const user = await models.user.query().findOne({ email: currentUser.email });
+    expect(user).toBeUndefined();
+  });
+
   afterEach(async () => {
     // Пока Segmentation fault: 11
     // после каждого теста откатываем миграции

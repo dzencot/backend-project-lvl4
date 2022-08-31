@@ -51,5 +51,10 @@ export default (app) => {
       }
 
       return reply;
+    })
+    .delete('/users/:id', async (req, reply) => {
+      const { id } = req.params;
+      await app.objection.models.user.query().deleteById(id);
+      reply.redirect(app.reverse('root'));
     });
 };
