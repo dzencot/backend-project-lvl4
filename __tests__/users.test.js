@@ -5,7 +5,11 @@ import fastify from 'fastify';
 
 import init from '../server/plugin.js';
 import encrypt from '../server/lib/secure.cjs';
-import { createRandomUser, createRandomUserData, getRandomUsers, prepareData } from './helpers/index.js';
+import {
+  createRandomUser,
+  getRandomUsers,
+  prepareData,
+} from './helpers/index.js';
 
 describe('test users CRUD', () => {
   let app;
@@ -70,7 +74,6 @@ describe('test users CRUD', () => {
 
   it('edit', async () => {
     const currentUser = await models.user.query().findOne({ email: users[0].email });
-    console.log('currentuser: ', currentUser);
     const editedUser = {
       ...currentUser,
       firstName: 'editedName',

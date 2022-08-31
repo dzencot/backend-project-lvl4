@@ -51,6 +51,5 @@ export default (app) => {
       }
 
       return reply;
-
     });
 };

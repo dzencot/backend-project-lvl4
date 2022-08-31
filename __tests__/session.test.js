@@ -1,11 +1,11 @@
 // @ts-check
 
+import _ from 'lodash';
 import fastify from 'fastify';
 import init from '../server/plugin.js';
 import { prepareData, createRandomUser } from './helpers/index.js';
 
 import encrypt from '../server/lib/secure.cjs';
-import _ from 'lodash';
 
 describe('test session', () => {
   let app;
@@ -24,7 +24,7 @@ describe('test session', () => {
       const preparedUser = {
         ..._.omit(user, 'password'),
         passwordDigest: encrypt(user.password),
-      }
+      };
       users.push(user);
       preparedUsers.push(preparedUser);
     }

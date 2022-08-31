@@ -29,18 +29,16 @@ const createRandomUserData = () => ({
 
 const getTestData = () => getFixtureData('testData.json');
 
-const prepareData = async (app, data) => {
+const prepareData = (app, data) => {
   const { knex } = app.objection;
 
   const tables = Object.keys(data);
-  for (const tableName of tables) {
-    await knex(tableName).insert(data[tableName]);
-  }
+  return Promise.all(tables.map((tableName) => knex(tableName).insert(data[tableName])));
 };
 
 const getRandomUsers = (count = 10) => {
   const users = [];
-  for (let i = 0; i < 10; i += 1) {
+  for (let i = 0; i < count; i += 1) {
     users.push(createRandomUserData());
   }
 
