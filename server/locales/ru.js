@@ -19,6 +19,17 @@ export default {
           success: 'Пользователь успешно зарегистрирован',
         },
       },
+      status: {
+        create: {
+          success: 'Статус успешно создан',
+        },
+        edit: {
+          success: 'Статус успешно отредактирован',
+        },
+        delete: {
+          success: 'Статус успешно удалён',
+        },
+      },
       authError: 'Доступ запрещён! Пожалуйста, авторизируйтесь.',
     },
     layouts: {
@@ -27,6 +38,10 @@ export default {
         signIn: 'Вход',
         signUp: 'Регистрация',
         signOut: 'Выход',
+        statuses: 'Статусы',
+        labels: 'Метки',
+        tasks: 'Задачи',
+        createStatus: 'Создать статус',
       },
     },
     views: {
@@ -46,6 +61,21 @@ export default {
         new: {
           submit: 'Сохранить',
           signUp: 'Регистрация',
+        },
+        edit: {
+          submit: 'Редактировать',
+        },
+        delete: {
+          submit: 'Удалить',
+        },
+      },
+      status: {
+        id: 'ID',
+        name: 'Наименование',
+        createdAt: 'Дата создания',
+        new: {
+          title: 'Создание статуса',
+          submit: 'Создать',
         },
         edit: {
           submit: 'Редактировать',

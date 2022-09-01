@@ -16,5 +16,6 @@ export const up = (knex) => {
 export const down = (knex) => {
   return knex.schema.table('users', (table) => {
     table.dropColumns('first_name', 'last_name');
+    table.dropColumns('last_name', 'last_name');
   });
 };

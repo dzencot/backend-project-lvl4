@@ -45,10 +45,31 @@ const getRandomUsers = (count = 10) => {
   return users;
 };
 
+const createRandomStatusData = () => {
+  const statusName = faker.word.adjective();
+  return {
+    name: statusName,
+  };
+};
+
+const createRandomStatus = createRandomStatusData;
+
+const getRandomStatuses = (count = 10) => {
+  faker.helpers.unique(faker.word.adjective);
+  const statuses = [];
+  for (let i = 0; i < count; i += 1) {
+    statuses.push(createRandomStatusData());
+  }
+
+  return statuses;
+};
+
 export {
   getTestData,
   prepareData,
   createRandomUser,
   createRandomUserData,
   getRandomUsers,
+  createRandomStatus,
+  getRandomStatuses,
 };
